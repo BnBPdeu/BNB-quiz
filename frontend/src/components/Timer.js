@@ -22,7 +22,8 @@ const Timer = ({ initialSeconds, onTimeUp, isActive }) => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isActive, onTimeUp]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isActive, onTimeUp]);
 
   const formatTime = () => {
     const mins = Math.floor(seconds / 60);
