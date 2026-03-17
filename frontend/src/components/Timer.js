@@ -1,29 +1,83 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+
+// const Timer = ({ initialSeconds, onTimeUp, isActive }) => {
+//   const [seconds, setSeconds] = useState(initialSeconds);
+
+//   useEffect(() => {
+//     let interval = null;
+    
+//     if (isActive && seconds > 0) {
+//       interval = setInterval(() => {
+//         setSeconds(prev => {
+//           if (prev <= 1) {
+//             clearInterval(interval);
+//             onTimeUp();
+//             return 0;
+//           }
+//           return prev - 1;
+//         });
+//       }, 1000);
+//     }
+
+//     return () => {
+//       if (interval) clearInterval(interval);
+//     };
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, [isActive, onTimeUp]);
+
+//   const formatTime = () => {
+//     const mins = Math.floor(seconds / 60);
+//     const secs = seconds % 60;
+//     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+//   };
+
+//   const getColor = () => {
+//     if (seconds < 60) return '#ff0000'; // Red - less than 1 minute
+//     if (seconds < 300) return '#ff6600'; // Orange - less than 5 minutes
+//     return '#333333'; // Dark gray - normal
+//   };
+
+//   return (
+//     <span style={{ 
+//       fontFamily: 'monospace',
+//       fontSize: '24px',
+//       fontWeight: '600',
+//       color: getColor()
+//     }}>
+//       {formatTime()}
+//     </span>
+//   );
+// };
+
+// export default Timer;
+
+import React, { useState, useEffect, useRef } from 'react';
 
 const Timer = ({ initialSeconds, onTimeUp, isActive }) => {
   const [seconds, setSeconds] = useState(initialSeconds);
+  const onTimeUpRef = useRef(onTimeUp);
+
+  // Keep ref updated so interval always calls latest onTimeUp
+  useEffect(() => {
+    onTimeUpRef.current = onTimeUp;
+  }, [onTimeUp]);
 
   useEffect(() => {
-    let interval = null;
-    
-    if (isActive && seconds > 0) {
-      interval = setInterval(() => {
-        setSeconds(prev => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            onTimeUp();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
+    if (!isActive) return;
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [isActive, onTimeUp]);
+    const interval = setInterval(() => {
+      setSeconds(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          onTimeUpRef.current();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isActive]); // ✅ no missing dependency warning
 
   const formatTime = () => {
     const mins = Math.floor(seconds / 60);
@@ -32,13 +86,13 @@ const Timer = ({ initialSeconds, onTimeUp, isActive }) => {
   };
 
   const getColor = () => {
-    if (seconds < 60) return '#ff0000'; // Red - less than 1 minute
-    if (seconds < 300) return '#ff6600'; // Orange - less than 5 minutes
-    return '#333333'; // Dark gray - normal
+    if (seconds < 60) return '#ff0000';
+    if (seconds < 300) return '#ff6600';
+    return '#333333';
   };
 
   return (
-    <span style={{ 
+    <span style={{
       fontFamily: 'monospace',
       fontSize: '24px',
       fontWeight: '600',
