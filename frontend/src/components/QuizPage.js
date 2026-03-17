@@ -223,7 +223,7 @@ const QuizPage = ({ quizId, teamInfo, onSubmit, onTimeout }) => {
         selected_option: selected
       }));
 
-      const response = await axios.post('http://localhost:8000/submit', {
+      const response = await axios.post('https://quiz-backend.onrender.com/submit', {
         quiz_id: quizId,
         answers: answersList,
         tab_switch_count: tabSwitchCountRef.current
@@ -342,7 +342,7 @@ const QuizPage = ({ quizId, teamInfo, onSubmit, onTimeout }) => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:8000/questions/${quizId}`);
+        const response = await axios.get(`https://quiz-backend.onrender.com/questions/${quizId}`);
 
         if (response.data && response.data.questions && response.data.questions.length > 0) {
           setQuestions(response.data.questions);

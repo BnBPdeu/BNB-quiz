@@ -31,7 +31,7 @@
 //     setError('');
     
 //     try {
-//       const response = await axios.post('http://localhost:8000/start-quiz', {
+//       const response = await axios.post('https://quiz-backend.onrender.com/start-quiz', {
 //         team_name: formData.teamName,
 //         team_leader_name: formData.teamLeaderName,
 //         team_leader_email: formData.teamLeaderEmail
@@ -229,7 +229,7 @@ const StartPage = ({ onQuizStart }) => {
     setError('');
     
     try {
-      const response = await axios.post('http://localhost:8000/start-quiz', {
+      const response = await axios.post('https://quiz-backend.onrender.com/start-quiz', {
         team_name: formData.teamName,
         team_leader_name: formData.teamLeaderName,
         team_leader_email: formData.teamLeaderEmail

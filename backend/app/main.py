@@ -19,7 +19,8 @@ app = FastAPI(title="Online Quiz System", version="1.0.0")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    # allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],  # Allow all origins for testing, change in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

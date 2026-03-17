@@ -194,7 +194,7 @@ class AntiCheating {
 
   async logTabSwitch() {
     try {
-      const response = await fetch(`http://localhost:8000/log-tab-switch/${this.quizId}`, {
+      const response = await fetch(`https://quiz-backend.onrender.com/log-tab-switch/${this.quizId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
